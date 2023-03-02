@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 const db = require('./db/db.json');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+// uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
 const PORT = process.env.PORT||3001;
 
@@ -20,6 +23,35 @@ app.get('/notes', (req, res) => {
   });
   
 app.get('/api/notes', (req, res) => res.json(db));
+
+app.post('/api/notes', (req, res) => {
+  /* fs.readFile('./db/db.json') */
+  console.info(`${req.method} request received to add a review`);
+
+  // Destructuring assignment for the items in req.body
+  const { title, text } = req.body;
+
+  // If all the required properties are present
+  if (title && text) {
+    // Variable for the object we will save
+    const newNote = {
+      title,
+      text,
+      id: uuidv4(),
+    }
+  
+  db.push(newNote);
+  const noteString = JSON.stringify(db);
+      fs.writeFile(`./db/db.json`, noteString, (err) =>
+      err
+        ? console.error(err)
+        : console.log(
+            `Review for ${newNote.title} has been written to JSON file`
+          )
+    );
+
+  res.json(db)
+}});
 
 app.listen(PORT, () => {
     console.log(`Example app listening at ${PORT}`);
