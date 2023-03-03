@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const db = require('./db/db.json');
+let db = require('./db/db.json');
 const fs = require('fs');
 //uuidv4 under MIT license
 const { v4: uuidv4 } = require('uuid');
@@ -36,6 +36,7 @@ app.post('/api/notes', (req, res) => {
       id: uuidv4(),
     }
   
+  // append new Note to the current db list then overwrite the db file with the new Note included
   db.push(newNote);
   const noteString = JSON.stringify(db);
       fs.writeFile(`./db/db.json`, noteString, (err) =>
@@ -46,10 +47,35 @@ app.post('/api/notes', (req, res) => {
           )
     );
 
+  // respond with the updated db information
   res.json(db)
 }});
 
+app.delete('/api/notes/:id', (req, res) => {
+  console.info(`${req.method} request received to delete a review`);
+
+  // Specifying the id of what is in the URL of the app.delete
+  const noteId = req.params.id;
+
+  // filter the db file for the note with the matching ID, reprint db without it
+  db = db.filter(({ id }) => id !== noteId);
+
+  // overwrite the db file with the correct note removed so that delete request works in browser
+  const noteString = JSON.stringify(db);
+      fs.writeFile(`./db/db.json`, noteString, (err) =>
+      err
+        ? console.error(err)
+        : console.log(
+            `Review with ID of ${noteId} has been deleted from JSON file`
+          )
+    );
+  
+  // respond with the updated db information
+  res.json(db);
+});
+
 // if adding an EDIT functionality, use the app.put method
+// haven't done this yet, hoping to add in tutoring session after submission
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
