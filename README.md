@@ -20,7 +20,7 @@
 ---
 ## About
 
-#### Using node.js, the user is asked a series of inquirer prompts, the answers to which are used to populate a new HTML showing off their employees as individualized cards, with details and a fun fact included alongside an icon matching their rank.
+#### Using Express.js, Heroku and Insomnia, the deployed app allows the User to freely save and delete notes either using the browser (and correlating icons) or using POST and DELETE requests directly through Insomnia, and the application is deployed through Heroku!
 ---
 ## User Story
 
