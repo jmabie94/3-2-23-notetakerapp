@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const db = require('./db/db.json');
 const fs = require('fs');
+//uuidv4 under MIT license
 const { v4: uuidv4 } = require('uuid');
 // uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
@@ -14,18 +15,13 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-  });
-
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/notes.html'));
-  });
+  res.sendFile(path.join(__dirname, 'public/notes.html'));
+});
   
 app.get('/api/notes', (req, res) => res.json(db));
 
 app.post('/api/notes', (req, res) => {
-  /* fs.readFile('./db/db.json') */
   console.info(`${req.method} request received to add a review`);
 
   // Destructuring assignment for the items in req.body
@@ -53,6 +49,12 @@ app.post('/api/notes', (req, res) => {
   res.json(db)
 }});
 
+// if adding an EDIT functionality, use the app.put method
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 app.listen(PORT, () => {
-    console.log(`Example app listening at ${PORT}`);
+    console.log(`Example app listening at PORT ${PORT}`);
   });
