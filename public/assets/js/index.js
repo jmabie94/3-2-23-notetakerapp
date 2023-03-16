@@ -50,6 +50,15 @@ const deleteNote = (id) =>
     },
   });
 
+// adding edit / put fetch
+/* const editNote = (id) => 
+  fetch(`/api/notes/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }); */
+
 const renderActiveNote = () => {
   hide(saveNoteBtn);
 
@@ -134,6 +143,9 @@ const renderNoteList = async (notes) => {
     spanEl.classList.add('list-item-title');
     spanEl.innerText = text;
     spanEl.addEventListener('click', handleNoteView);
+    // add another button next to the trash can (like a pencil button) to allow for editing
+    // add functionality so that when EDIT button is pushed, readonly is set to false
+    // link to the app.put route in server (consistent consts/ lets/)
 
     liEl.append(spanEl);
 

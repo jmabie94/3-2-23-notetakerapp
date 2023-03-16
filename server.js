@@ -76,6 +76,39 @@ app.delete('/api/notes/:id', (req, res) => {
 
 // if adding an EDIT functionality, use the app.put method
 // haven't done this yet, hoping to add in tutoring session after submission
+/* app.put('/api/notes/:id', (req, res) => {
+  console.info(`${req.method} request received to edit a review with ID ${noteId}`);
+
+  const noteId = req.params.id;
+  let noteText = req.params.text; */
+
+  /* const noteString = JSON.stringify(db); */
+  // might need to remove console log here and place after the put
+  /* fs.readFile('./db/db.json', noteId, (err) =>
+    err
+      ? console.error(err)
+      : console.log(
+        `Review with ID of ${noteId} has been opened for editing in the JSON file`
+        )
+  );
+
+  if (noteId == id) {
+    activeNote = noteText;
+  }
+
+  const noteString = JSON.stringify(db);
+      fs.writeFile(`./db/db.json`, noteString, (err) =>
+      err
+        ? console.error(err)
+        : console.log(
+            `Review with ID of ${noteId} has been edited in the JSON file`
+          )
+    );
+   */
+  // respond with the updated db information
+  /* res.json(db);
+
+}); */
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
